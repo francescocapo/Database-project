@@ -1,3 +1,5 @@
+'''
+
 import mysql.connector as mysql
 from mysql.connector import Error
 import pandas as pd
@@ -8,3 +10,5 @@ db = mysql.connect(
    passwd = "Giuliagiulia3"
 )
 print(db)
+'''
+
