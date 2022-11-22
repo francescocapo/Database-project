@@ -1,4 +1,4 @@
-
+import numpy as np
 import pandas as pd
 
 dataset = pd.read_csv('Airplane_Crashes_and_Fatalities_Since_1908.csv')
@@ -27,7 +27,18 @@ while len(flight_number)!=2072:
 
 dup = {x for x in flight_number if flight_number.count(x) >1}
 print(dup)
-
-
-
 selection.insert(6,'Flight#', flight_number)
+serial_num = selection.loc[3196:, 'cn/In']
+
+print(serial_num)
+
+
+dataset = dataset.replace(np.nan,00)
+
+n = random.randint(100, 8000)
+if n not in serial_num:
+    selection['cn/In'].fillna(n, inplace = True)
+
+serial_num = selection.loc[3196:, 'cn/In']
+serial_num_ = list(serial_num)
+dup2 = {i for i in serial_num_ if serial_num_.count(i) >1}
