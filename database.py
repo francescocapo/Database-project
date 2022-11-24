@@ -76,5 +76,25 @@ print(new)
 
 selection.insert(1, 'Date', new)
 
-
+times = selection['Time'].tolist()
+t2 = []
+for t in times:
+    if type(t)!=str:
+            t2.append(0)
+    else:
+        if ':' not in t:
+            t = t[len(t)-1-2:] + ':' + t[len(t)-1-2:]
+        p = t.partition(':')
+        if len(p[0]) > 2:
+            t = t[1:]
+        if len(p[2]) > 2:
+            t = t[:-1]
+        try:
+            time = datetime.datetime.strptime(t, '%H:%M').time()
+            t2.append(time)
+        except:
+            t2.append(0)
+            continue
+selection = selection.drop(labels='Time', axis=1)
+selection.insert(1, 'Time', t2)
 
