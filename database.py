@@ -82,8 +82,12 @@ for t in times:
     if type(t)!=str:
             t2.append(0)
     else:
+        allowed_characters = ['0','1','2','3','4','5','6','7','8','9',':']
+        for i in t:
+            if i not in allowed_characters or (i == ':' in (t[0] or t[-1])):
+                t = t.replace(i,'')
         if ':' not in t:
-            t = t[len(t)-1-2:] + ':' + t[len(t)-1-2:]
+            t = t[:len(t)//2]+':'+t[len(t)//2:]
         p = t.partition(':')
         if len(p[0]) > 2:
             t = t[1:]
