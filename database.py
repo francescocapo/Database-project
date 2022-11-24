@@ -5,13 +5,17 @@ dataset = pd.read_csv('Airplane_Crashes_and_Fatalities_Since_1908.csv')
 dataset.head()
 selection = dataset.iloc[3196:, 1:]  # take values from 1980-90 and take all columns except from the first
 
-# print(len(selection))
-# print(selection.nunique())
+#print(len(selection))
+#print(selection.nunique())
 
 #dup = {x for x in flight_number if flight_number.count(x) > 1}
 # print(dup)
 
 ###working on primary keys
+
+
+#Flight#
+
 
 import random
 
@@ -28,6 +32,8 @@ while len(flight_number) != 2072:
 selection.insert(6, 'Flight#', flight_number)
 
 
+#Serial number
+
 serial_num = selection.loc[3196:, 'cn/In']
 serial_num_ = list(serial_num)
 selection = selection.drop(labels='cn/In', axis=1)
@@ -40,6 +46,9 @@ for x in range(len(serial_num_)):
         serial_num_[x] = str(n)
 
 selection.insert(8, 'serial#', serial_num_)
+
+
+#REGISTRATION
 
 
 registration = selection.loc[3196:, 'Registration']
@@ -56,30 +65,24 @@ for r in range(len(registration_)):
 
 selection.insert(7, 'Registration', registration_)
 
-'''
-null_val = selection.isnull().sum()
-#print(selection)
-#print('null values are:')
-print(null_val)
-'''
+#DATE
 
 import datetime
+from datetime import datetime
 date = selection.loc[3196:, 'Date']
-date_list = list(date)
+date_=list(date)
+list=[datetime.strptime(x,'%m/%d/%Y').strftime('%Y/%m/%d') for x in date_]
+print(list)
 selection = selection.drop(labels='Date', axis=1)
+selection.insert(1, 'Date', list)
 
-for i in date_list:
-    dates = datetime.datetime.strptime(i, '%m/%d/%Y')
-    new = dates.strftime('%Y/%m/%d')
 
-print(new)
-
-selection.insert(1, 'Date', new)
+#TIME
 
 times = selection['Time'].tolist()
 t2 = []
 for t in times:
-    if type(t)!=str:
+    if type(t)!= str:
             t2.append(0)
     else:
         allowed_characters = ['0','1','2','3','4','5','6','7','8','9',':']
@@ -102,3 +105,9 @@ for t in times:
 selection = selection.drop(labels='Time', axis=1)
 selection.insert(1, 'Time', t2)
 
+"""
+null_val = selection.isnull().sum()
+#print(selection)
+print('null values are:')
+print(null_val)
+"""
