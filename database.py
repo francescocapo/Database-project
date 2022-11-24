@@ -66,13 +66,15 @@ print(null_val)
 import datetime
 date = selection.loc[3196:, 'Date']
 date_list = list(date)
-for i in date_list:
-    dates=datetime.datetime.strptime(i, '%m/%d/%Y')
-    new=dates.strftime('%Y/%m/%d')
 selection = selection.drop(labels='Date', axis=1)
-selection.insert(8, 'Date', new)
 
-selection.head(2000)
+for i in date_list:
+    dates = datetime.datetime.strptime(i, '%m/%d/%Y')
+    new = dates.strftime('%Y/%m/%d')
+
+print(new)
+
+selection.insert(1, 'Date', new)
 
 
 
