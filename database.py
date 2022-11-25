@@ -65,7 +65,8 @@ print(null_val)
 
 
 
-
+import datetime
+from datetime import datetime
 
 times = selection['Time'].tolist()
 t2 = []
@@ -85,7 +86,7 @@ for t in times:
         if len(p[2]) > 2:
             t = t[:-1]
         try:
-            time = datetime.datetime.strptime(t, '%H:%M').time()
+            time = datetime.strptime(t, '%H:%M').time()
             t2.append(time)
         except:
             t2.append(0)
@@ -93,8 +94,7 @@ for t in times:
 selection = selection.drop(labels='Time', axis=1)
 selection.insert(1, 'Time', t2)
 
-import datetime
-from datetime import datetime
+
 date = selection.loc[3196:, 'Date']
 date_=list(date)
 list=[datetime.strptime(x,'%m/%d/%Y').strftime('%Y/%m/%d') for x in date_]
