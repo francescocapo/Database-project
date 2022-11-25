@@ -3,7 +3,7 @@ import pandas as pd
 
 dataset = pd.read_csv('Airplane_Crashes_and_Fatalities_Since_1908.csv')
 dataset.head()
-selection = dataset.iloc[3196:, 1:]  # take values from 1980-90 and take all columns except from the first
+selection = dataset.iloc[3196:]  # take values from 1980-90 and take all columns except from the first
 
 # print(len(selection))
 # print(selection.nunique())
@@ -12,10 +12,13 @@ selection = dataset.iloc[3196:, 1:]  # take values from 1980-90 and take all col
 # print(dup)
 
 ###working on primary keys
+selection = selection.drop(labels='Flight #', axis=1)
+
+#FLIGHT NUMBER
 
 import random
 
-selection = selection.drop(labels='Flight #', axis=1)
+
 
 flight_number = []
 
@@ -27,6 +30,7 @@ while len(flight_number) != 2072:
 
 selection.insert(6, 'Flight#', flight_number)
 
+#SERIAL NUMBER
 
 serial_num = selection.loc[3196:, 'cn/In']
 serial_num_ = list(serial_num)
@@ -41,6 +45,8 @@ for x in range(len(serial_num_)):
 
 selection.insert(8, 'serial#', serial_num_)
 
+
+#REGISTRATION
 
 registration = selection.loc[3196:, 'Registration']
 registration_ = list(registration)
@@ -63,7 +69,7 @@ null_val = selection.isnull().sum()
 print(null_val)
 '''
 
-
+#TIME
 
 import datetime
 from datetime import datetime
@@ -92,13 +98,15 @@ for t in times:
             t2.append(0)
             continue
 selection = selection.drop(labels='Time', axis=1)
-selection.insert(1, 'Time', t2)
+selection.insert(2, 'Time', t2)
 
+
+#DATE
 
 date = selection.loc[3196:, 'Date']
-date_=list(date)
-list=[datetime.strptime(x,'%m/%d/%Y').strftime('%Y/%m/%d') for x in date_]
+date_ = list(date)
+list = [datetime.strptime(x,'%m/%d/%Y').strftime('%Y/%m/%d') for x in date_]
 print(list)
 selection = selection.drop(labels='Date', axis=1)
-selection.insert(2, 'Date', list)
+selection.insert(1, 'Date', list)
 
