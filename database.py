@@ -60,12 +60,6 @@ for r in range(len(registration_)):
 
 selection.insert(8, 'Registration', registration_)
 
-'''
-null_val = selection.isnull().sum()
-#print(selection)
-#print('null values are:')
-print(null_val)
-'''
 
 #TIME
 
@@ -108,3 +102,9 @@ print(list)
 selection = selection.drop(labels='Date', axis=1)
 selection.insert(1, 'Date', list)
 
+
+
+null_val = selection.isnull().sum()
+#print(selection)
+#print('null values are:')
+print(null_val)
