@@ -18,8 +18,6 @@ selection = selection.drop(labels='Flight #', axis=1)
 
 import random
 
-
-
 flight_number = []
 
 while len(flight_number) != 2072:
@@ -43,7 +41,7 @@ for x in range(len(serial_num_)):
             n = random.randint(100, 8000)
         serial_num_[x] = str(n)
 
-selection.insert(8, 'serial#', serial_num_)
+selection.insert(9, 'serial#', serial_num_)
 
 
 #REGISTRATION
@@ -60,7 +58,7 @@ for r in range(len(registration_)):
     if reg not in registration_:
         registration_[r] = reg
 
-selection.insert(7, 'Registration', registration_)
+selection.insert(8, 'Registration', registration_)
 
 '''
 null_val = selection.isnull().sum()
@@ -77,7 +75,7 @@ from datetime import datetime
 times = selection['Time'].tolist()
 t2 = []
 for t in times:
-    if type(t)!=str:
+    if type(t) != str:
             t2.append(0)
     else:
         allowed_characters = ['0','1','2','3','4','5','6','7','8','9',':']
