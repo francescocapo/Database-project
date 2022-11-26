@@ -82,12 +82,9 @@ for t in times:
             t = t[1:]
         if len(p[2]) > 2:
             t = t[:-1]
-        try:
-            time = datetime.strptime(t, '%H:%M').time()
-            t2.append(time)
-        except:
-            t2.append(0)
-            continue
+        time = datetime.strptime(t, '%H:%M').time()
+        t2.append(time)
+        
 selection = selection.drop(labels='Time', axis=1)
 selection.insert(2, 'Time', t2)
 
