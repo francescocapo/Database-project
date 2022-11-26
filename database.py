@@ -25,7 +25,6 @@ while len(flight_number) != 2072:
     if n not in flight_number:
         flight_number.append(n)
 
-
 selection.insert(6, 'Flight#', flight_number)
 
 #SERIAL NUMBER
