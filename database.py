@@ -5,8 +5,8 @@ dataset = pd.read_csv('Airplane_Crashes_and_Fatalities_Since_1908.csv')
 dataset.head()
 selection = dataset.iloc[3196:]  # take values from 1980-90 and take all columns except from the first
 
-# print(len(selection))
-# print(selection.nunique())
+print(len(selection))
+print(selection.nunique())
 
 #dup = {x for x in flight_number if flight_number.count(x) > 1}
 # print(dup)
