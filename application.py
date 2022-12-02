@@ -119,9 +119,6 @@ if __name__ == "__main__":
 	5. Select a motivation and see which airplane crashed and why
 	6. -
 	quit
-'cars' -> Get all the cars with engineCC greater than a given value
-'members' -> Get all the members
-'crash' -> Get all the rentals
  > ''')
 
 		if choice not in valid_choices:
