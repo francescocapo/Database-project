@@ -89,7 +89,54 @@ def query_1():
 					print(
 						f"\n - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Number of fatalities: {i[3]} \n")
 
-#def query_2():
+
+def query_2():
+	location = []
+	sql = (mycursor.execute(
+		'''select distinct SUBSTRING_INDEX(location,',',-1)
+		from crash;
+        '''))
+	mycursor.execute(sql)
+	result = mycursor.fetchall()
+	for i in result:
+		location.append(i[0])
+	mydb.commit()
+	print(location)
+	choicesq2 = location[:]
+	choicesq2.append('location')
+	choicesq2.append('home')
+	print(choicesq2)
+	while True:
+		choice2 = input('''\nChoose a country to check where crashes happened and the number of total victims. The 1st row is the accident with more deaths.
+	If so, you will get the information about the crashes.
+	(note that the first letter of the country must be in upper case).
+
+
+	Choose the nation or type 'home':
+		''')
+		if choice2 not in choicesq2:
+			print(f"\nInput not valid, check your syntax.\n")
+			continue
+
+		else:
+			if choice2 == 'home':
+				print('\nGoing back to query selection\n')
+				break
+			if choice2 == 'location':
+				print(f'''Here you can find all the location among which you can choose:
+{location}\n''')
+
+			if choice2 in location:
+				sql = (mycursor.execute(f'''SELECT DISTINCT f.flight_number,SUBSTRING_INDEX(c.location,',',1) AS CityLocation, c.date,c.number_of_fatalities+c.ground as TotalVictims 
+                                        FROM Flight as f, Airplane as a, Crash as c
+                                        WHERE a.serial_number = c.serial_number and a.registration = c.registration and f.serial_number = a.serial_number and f.registration = c.registration and c.location LIKE '%{choice2}' 
+                                        ORDER BY c.number_of_fatalities+c.ground DESC;'''))
+				mycursor.execute(sql)
+				result2 = mycursor.fetchall()
+				print(f"These are all flights that crashed in {choice2}:")
+				for i in result2:
+					print(
+						f"\n - Flight number: '{i[0]}', CityLocation: '{i[1]}', Date: '{i[2]}', TotalVictims: {i[3]} \n")
 
 
 def query_3():
@@ -172,6 +219,7 @@ def query_5():
 					f"\nDetails and summary of the crashes '{i[0]}', '{i[1]}', '{i[2]}' \n")
 
 #def query_6():
+
 
 
 def query_7():
