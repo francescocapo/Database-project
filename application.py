@@ -56,7 +56,7 @@ def query_1():
     choicesq1.append('home')
 
     while True:
-        choice1 = input('''\nChoose a country to check if one or more crashes have ever happened.
+        choice1 = input('''--\nChoose a country to check if one or more crashes have ever happened.
 	If so, you will get the information about the crashes.
 	(note that the first letter of the country must be in upper case).
 	Hint: if you type 'location' you will get a list with all the possible location.
@@ -81,7 +81,7 @@ def query_1():
 				where a.registration = c.registration and a.serial_number = c.serial_number and c.location like '%{choice1}' '''))
                 mycursor.execute(sql)
                 result1 = mycursor.fetchall()
-                print(f"These are all flights that crashed in  {choice1}:")
+                print(f"These are all flights that crashed in  {choice1}:\n--")
                 for i in result1:
                     print(
                         f" - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Number of fatalities: {i[3]} \n")
@@ -102,7 +102,7 @@ def query_2():
     choicesq2.append('location')
     choicesq2.append('home')
     while True:
-        choice2 = input('''\nChoose a country to check where crashes happened and the number of total victims.
+        choice2 = input('''--\nChoose a country to check where crashes happened and the number of total victims.
     The 1st row is the accident with more deaths.
 	(note that the first letter of the country must be in upper case).
     Hint: if you type 'location' you will get a list with all the possible location.
@@ -126,7 +126,7 @@ def query_2():
                                         ORDER BY c.number_of_fatalities+c.ground DESC;'''))
                 mycursor.execute(sql)
                 result2 = mycursor.fetchall()
-                print(f"These are all flights that crashed in {choice2}:")
+                print(f"These are all the details of the flights that crashed in {choice2}:\n--")
                 for i in result2:
                     print(
                         f"\n - Flight number: '{i[0]}', CityLocation: '{i[1]}', Date: '{i[2]}', TotalVictims: {i[3]} \n")
@@ -141,17 +141,16 @@ def query_3():
     for i in result:
         fatalities.append(str(i[0]))
     mydb.commit()
-    print(fatalities)
     choicesq3 = fatalities[:]
     choicesq3.append('home')
 
     while True:
-        choice3 = input('''\nSelect a number between 0 and 520, indicating the number of fatalities of the crash you want to get the details, if it exists.
+        choice3 = input('''--\nSelect a number between 0 and 520, indicating the number of fatalities of the crash you want to get the details, if it exists.
 
 	Choose the number or type 'home':	''')
 
         if choice3 not in choicesq3:
-            print(f"\nInput not valid, check your syntax.\n")
+            print(f"\n    There are no crashes with {choice3} fatalities, please try again with a different number.")
             continue
         else:
 
@@ -165,10 +164,9 @@ def query_3():
 				where a.registration=c.registration and a.serial_number = c.serial_number and c.number_of_fatalities='%{choice3}%' '''))
                 mycursor.execute(sql)
                 result1 = mycursor.fetchall()
-                print(f"These are the flights crashed with {choice3} fatalities\n====")
+                print(f"These are the flights crashed with {choice3} fatalities\n--")
                 for i in result1:
-                    print(
-                        f"\nDetails of the crashes '{i[0]}', '{i[1]}', '{i[2]}' \n")
+                    print(f"\n\nDetails of the crashes: '{i[0]}', '{i[1]}', '{i[2]}'")
 
 
 def query_4():
@@ -178,7 +176,7 @@ def query_4():
 	group by c.serial_number, c.registration
 	having cn>2''')
     result = mycursor.fetchall()
-    print('There are no airplanes that crashed more than once.')
+    print('\n--\nThere are no airplanes that crashed more than once.\n--\n')
 
 
 def query_5():
@@ -186,7 +184,7 @@ def query_5():
                  'midair collision', 'home']
     while True:
 
-        choice5 = input('''\nSelect the reason why the airplane crashed or type 'home' to return to the query selection.
+        choice5 = input('''--\nSelect the reason why the airplane crashed or type 'home' to return to the query selection.
 	The possible reason that you can select are the following:
 	'shot down', 'engines failed', 'hijacked', 'crashed into a mountain', 'crashed into the jungle', 'midair collision'
 	(note that all the letter must be in lower case).
@@ -207,19 +205,20 @@ def query_5():
 				where summary like '%{choice5}%' '''))
             mycursor.execute(sql)
             result = mycursor.fetchall()
-            print(f"These are the flights crashed because of {choice5}\n====")
+            print(f"These are the flights crashed because of {choice5}\n--")
             for i in result:
                 print(
-                    f"\nDetails and summary of the crashes '{i[0]}', '{i[1]}', '{i[2]}' \n")
+                    f"Details and summary of the crashes '{i[0]}', '{i[1]}', '{i[2]}'\n\n")
 
 
 def query_6():
     yearslist = [str(i) for i in range(1980, 2009)]
     yearslist.append('home')
-    print(yearslist)
+    #print(yearslist)
     while True:
-        choice6 = input(
-            '''\nSelect an year and you will get the aircrafts crashed in the same route. Otherwise, write 'home' to come back.''')
+        choice6 = input('''--\nSelect an year from 1980 up to 2009 and you will get the aircrafts crashed in the same route.
+         
+	Choose the year or type 'home':''')
 
         if choice6 not in yearslist:
             print(f"\nInput not valid, check your syntax.\n")
@@ -237,7 +236,10 @@ def query_6():
                                                       having count(route) > 1); '''))
             mycursor.execute(sql)
             result6 = mycursor.fetchall()
-            print(f"These are the flights crashed because of {choice6}\n====")
+            if result6 == []:
+                print('--\nThere are no flights that crashed with the same route in this year.')
+            else:
+                print(f"These are the flights that crashed in {choice6}\n--")
             for i in result6:
                 print(
                     f"\nAircraft's serial number: '{i[0]}', Aircraft registration: '{i[1]}', Aircraft operator: '{i[2]}', Date: '{i[3]}' \n")
@@ -253,7 +255,7 @@ def query_7():
 	''')
     result = mycursor.fetchall()
     for i in result:
-        print(f"\nThe most frequent operator is: '{i[0]}', total number of fatalities: {i[1]} \n")
+        print(f"\n--\nThe most frequent operator is: '{i[0]}', total number of fatalities: {i[1]} \n--\n")
 
 
 def query_8():
@@ -293,10 +295,10 @@ if __name__ == "__main__":
  > ''')
 
         if choice not in valid_choices:
-            print(f"Your choice '{choice}' is not valid. Please be sure to select of the above choices")
+            print(f"Your choice '{choice}' is not valid. Please be sure to select one of the numbers below")
             continue
 
-        if choice == "quit":
+        if choice == "Quit":
             break
         print(f"\nYou chose to execute query {choice}")
         if choice == '1':
