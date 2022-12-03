@@ -39,7 +39,6 @@ try:
 except Error as e:
     print("Error while connecting to MySQL", e)
 
-f = open('selection.csv', "r")
 
 def query_1():
 
