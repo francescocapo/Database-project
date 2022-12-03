@@ -6,7 +6,7 @@ import mysql.connector as mysql
 
 host = "localhost"
 user = "root"
-password = "Magda2004."
+password = "franci22"
 
 db = mysql.connect(
     host=host,
@@ -84,13 +84,13 @@ def query_1():
                 print(f"These are all flights that crashed in  {choice1}:")
                 for i in result1:
                     print(
-                        f"\n - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Number of fatalities: {i[3]} \n")
+                        f" - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Number of fatalities: {i[3]} \n")
 
 
 def query_2():
     location = []
     sql = (mycursor.execute(
-        '''select distinct SUBSTRING_INDEX(location,',',-1)
+        '''select distinct SUBSTRING_INDEX(location,', ',-1)
 		from crash;
         '''))
     mycursor.execute(sql)
@@ -105,7 +105,8 @@ def query_2():
         choice2 = input('''\nChoose a country to check where crashes happened and the number of total victims.
     The 1st row is the accident with more deaths.
 	(note that the first letter of the country must be in upper case).
-
+    Hint: if you type 'location' you will get a list with all the possible location.
+    
 	Choose the nation or type 'home': ''')
         if choice2 not in choicesq2:
             print(f"\nInput not valid, check your syntax.\n")
