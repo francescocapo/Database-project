@@ -6,7 +6,7 @@ import mysql.connector as mysql
 
 host = "localhost"
 user = "root"
-password = "franci22"
+password = "Magda2004."
 
 
 db = mysql.connect(
@@ -186,6 +186,19 @@ def query_7():
 	result = mycursor.fetchall()
 	for i in result:
 		print(f"\nThe most frequent operator is: '{i[0]}', total number of fatalities: {i[1]} \n")
+
+def query_8():
+	import matplotlib.pyplot as plt
+	mycursor.execute('''select year(date), count(*) from crash group by year(date);''')
+	result = mycursor.fetchall()
+	years = []
+	crashes = []
+	for i in result:
+		years.append(i[0])
+		crashes.append(i[1])
+
+
+
 
 
 
