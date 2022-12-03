@@ -45,7 +45,7 @@ def query_1():
 
 	location = []
 	sql = (mycursor.execute(
-		'''select distinct SUBSTRING_INDEX(location,',',-1)
+		'''select distinct SUBSTRING_INDEX(location,', ',-1)
 		from crash
         '''))
 	mycursor.execute(sql)
@@ -62,7 +62,7 @@ def query_1():
 		choice1 = input('''\nChoose a country to check if one or more crashes have ever happened.
 	If so, you will get the information about the crashes.
 	(note that the first letter of the country must be in upper case).
-		
+	Hint: if you type 'location' you will get a list with all the possible location.
 		
 	Choose the nation or type 'home':
 		''')
@@ -107,10 +107,9 @@ def query_3():
 	choicesq3.append('home')
 
 	while True:
-		choice3 = input('''\nSelect a number between 0 and 520, and see if there are any crashes that correspond to that number and if so which aircraft are.
+		choice3 = input('''\nSelect a number between 0 and 520, indicating the number of fatalities of the crash you want to get the details, if it exists.
 
-		Choose the number or type 'home':
-		''')
+	Choose the number or type 'home':	''')
 
 		if choice3 not in choicesq3:
 			print(f"\nInput not valid, check your syntax.\n")
