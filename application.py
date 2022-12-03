@@ -6,7 +6,7 @@ import mysql.connector as mysql
 
 host = "localhost"
 user = "root"
-password = "Magda2004."
+password = "franci22"
 
 
 db = mysql.connect(
@@ -46,18 +46,18 @@ def query_1():
 	location = []
 	sql = (mycursor.execute(
 		'''select distinct SUBSTRING_INDEX(location,',',-1)
-		from crash;
+		from crash
         '''))
 	mycursor.execute(sql)
 	result = mycursor.fetchall()
 	for i in result:
 		location.append(i[0])
 	mydb.commit()
-	print(location)
+
 	choicesq1 = location[:]
 	choicesq1.append('location')
 	choicesq1.append('home')
-	print(choicesq1)
+
 	while True:
 		choice1 = input('''\nChoose a country to check if one or more crashes have ever happened.
 	If so, you will get the information about the crashes.
@@ -92,7 +92,46 @@ def query_1():
 #def query_2():
 
 
-#def query_3():
+def query_3():
+
+	fatalities = []
+	sql = (mycursor.execute(
+		'''select distinct number_of_fatalities from crash'''))
+	mycursor.execute(sql)
+	result = mycursor.fetchall()
+	for i in result:
+		fatalities.append(str(i[0]))
+	mydb.commit()
+	print(fatalities)
+	choicesq3 = fatalities[:]
+	choicesq3.append('home')
+
+	while True:
+		choice3 = input('''\nSelect a number between 0 and 520, and see if there are any crashes that correspond to that number and if so which aircraft are.
+
+		Choose the number or type 'home':
+		''')
+
+		if choice3 not in choicesq3:
+			print(f"\nInput not valid, check your syntax.\n")
+			continue
+		else:
+
+			if choice3 == 'home':
+				print('\nGoing back to query selection\n')
+				break
+
+			if choice3 in fatalities:
+				sql = (mycursor.execute(f'''select a.serial_number, a.registration, a.operator
+				from crash as c , airplane as a 
+				where a.registration=c.registration and a.serial_number = c.serial_number and c.number_of_fatalities='%{choice3}%' '''))
+				mycursor.execute(sql)
+				result1 = mycursor.fetchall()
+				print(f"These are the flights crashed with {choice3} fatalities\n====")
+				for i in result1:
+					print(
+						f"\nDetails of the crashes '{i[0]}', '{i[1]}', '{i[2]}' \n")
+
 
 def query_4():
 	mycursor.execute('''select c.serial_number, c.registration, a.type, count(*) as cn
@@ -151,7 +190,7 @@ if __name__ == "__main__":
 	Choices:
 	1. Select a country and find which airplane crashed there
 	2. Select a year and see the number of incidents
-	3. Select the number of fatalities and see a which crash corresponds to
+	3. Select the number of fatalities and see to which crash it corresponds
 	4. Check if an airplane has crashed more than once
 	5. Select a motivation and see which airplane crashed and why
 	6. Insert a year and find the airplanes crashed on the same route in that year
