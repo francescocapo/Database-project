@@ -199,10 +199,6 @@ def query_8():
 
 
 
-
-
-
-
 # MAIN
 if __name__ == "__main__":
 	print("Welcome to our project!\n")
