@@ -91,9 +91,15 @@ def query_1():
 
 #def query_2():
 
+
 #def query_3():
 
-#def query_4():
+def query_4():
+	mycursor.execute('''select c.serial_number, c.registration, a.type, count(*) as cn
+	from crash as c, airplane as a
+	where c.serial_number = a.serial_number and c.registration = a.registration
+	group by c.serial_number, c.registration
+	having cn>2''')
 
 
 def query_5():
@@ -145,9 +151,9 @@ if __name__ == "__main__":
 		choice = input('''\nChoose a query to execute from the one below or type 'quit' to quit.\n
 	Choices:
 	1. Select a country and find which airplane crashed there
-	2. -
+	2. Select a year and see the number of incidents
 	3. Select the number of fatalities and see a which crash corresponds to
-	4. Select a year and see the number of incidents
+	4. Check if an airplane has crashed more than once
 	5. Select a motivation and see which airplane crashed and why
 	6. -
 	7. -
