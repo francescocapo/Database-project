@@ -100,11 +100,11 @@ def query_4():
 	where c.serial_number = a.serial_number and c.registration = a.registration
 	group by c.serial_number, c.registration
 	having cn>2''')
-
+	result2 = mycursor.fetchall()
+	print('There are no airplanes that crashed more than once.')
 
 def query_5():
 	choicesq5 = ['shot down', 'engines failed', 'hijacked', 'crashed into a mountain', 'crashed into the jungle', 'midair collision', 'home']
-
 	while True:
 
 		choice5 = input('''\nSelect the reason why the airplane crashed or type 'home' to return to the query selection.
@@ -112,9 +112,8 @@ def query_5():
 	'shot down', 'engines failed', 'hijacked', 'crashed into a mountain', 'crashed into the jungle', 'midair collision'
 	(note that all the letter must be in lower case).
 			
-	Choose a the reason or type 'home':
-	
-	>''')
+	Choose a the reason or type 'home':''')
+
 		if choice5 not in choicesq5:
 			print(f"\nInput not valid, check your syntax.\n")
 			continue
@@ -144,7 +143,7 @@ def query_5():
 if __name__ == "__main__":
 	print("Welcome to our project!\n")
 
-	valid_choices = ['1', '2', '3', '4', '5', '6', '7', 'quit']
+	valid_choices = ['1', '2', '3', '4', '5', '6', '7', '8', 'quit']
 
 	while True:
 
