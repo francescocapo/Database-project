@@ -6,7 +6,7 @@ import mysql.connector as mysql
 
 host = "localhost"
 user = "root"
-password = "franci22"
+password = "Magda2004."
 
 
 db = mysql.connect(
@@ -154,8 +154,8 @@ if __name__ == "__main__":
 	3. Select the number of fatalities and see a which crash corresponds to
 	4. Check if an airplane has crashed more than once
 	5. Select a motivation and see which airplane crashed and why
-	6. -
-	7. -
+	6. Insert a year and find the airplanes crashed on the same route in that year
+	7. Get the most frequent company with its total number of fatalities
 	quit
  > ''')
 
