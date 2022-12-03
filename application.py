@@ -41,30 +41,62 @@ except Error as e:
 
 f = open('selection.csv', "r")
 
-def load_data(dataset_fname: str):
-	print("I loaded the dataset and built the database!\n")
-	# dump the database to a file
-	pass
+def query_1():
+
+	location = []
+	sql = (mycursor.execute(
+		'''select distinct SUBSTRING_INDEX(location,',',-1)
+		from crash;
+        '''))
+	mycursor.execute(sql)
+	result = mycursor.fetchall()
+	for i in result:
+		location.append(i[0])
+	mydb.commit()
+	print(location)
+	choicesq1 = location[:]
+	choicesq1.append('location')
+	choicesq1.append('home')
+	print(choicesq1)
+	while True:
+		choice1 = input('''\nChoose a country to check if one or more crashes have ever happened.
+	If so, you will get the information about the crashes.
+	(note that the first letter of the country must be in upper case).
+		
+		
+	Choose the nation or type 'home':
+		''')
+		if choice1 not in choicesq1:
+			print(f"\nInput not valid, check your syntax.\n")
+			continue
+
+		else:
+			if choice1 == 'home':
+				print('\nGoing back to query selection\n')
+				break
+			if choice1 == 'location':
+				print(f'''Here you can find all the location among which you can choose:
+{location}\n''')
+
+			if choice1 in location:
+				sql = (mycursor.execute(f'''select c.serial_number, c.registration, a.operator, c.number_of_fatalities
+				from airplane as a, crash as c
+				where a.registration = c.registration and a.serial_number = c.serial_number and c.location like '%{choice1}' '''))
+				mycursor.execute(sql)
+				result1 = mycursor.fetchall()
+				print(f"These are all flights that crashed in  {choice1}:")
+				for i in result1:
+					print(
+						f"\n - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Number of fatalities: {i[3]} \n")
+
+#def query_2():
+
+#def query_3():
+
+#def query_4():
 
 
-def query_ground():
-	min_engineCC = input("Please provide a minimum engine capacity: ")
-	print(f"\n====\n<result of query_1 with minimum engine capacity {min_engineCC}>\n====")
-
-
-def query_plane():
-	print(f"<result of query_2>")
-
-
-def query_fatalities():
-	print(f"<result of query_3>")
-
-
-def query_deaths():
-	print(f"<result of query_4>")
-
-
-def query_five():
+def query_5():
 	choicesq5 = ['shot down', 'engines failed', 'hijacked', 'crashed into a mountain', 'crashed into the jungle', 'midair collision', 'home']
 
 	while True:
@@ -94,19 +126,19 @@ def query_five():
 			print(f"These are the flights crashed because of {choice5}\n====")
 			for i in result1:
 				print(
-					f"\n====\n<Details and summary of the crashes '{i[0]}', '{i[1]}', '{i[2]}' \n")
-			continue
+					f"\nDetails and summary of the crashes '{i[0]}', '{i[1]}', '{i[2]}' \n")
 
-def query_war():
-	print(f"<result of query_6>")
+#def query_6():
 
+
+#def query_7():
 
 
 # MAIN
 if __name__ == "__main__":
 	print("Welcome to our project!\n")
 
-	valid_choices = ['query1', 'query2', 'query3', 'query4', 'query5', 'query6', 'query7', 'quit']
+	valid_choices = ['1', '2', '3', '4', '5', '6', '7', 'quit']
 
 	while True:
 
@@ -118,26 +150,31 @@ if __name__ == "__main__":
 	4. Select a year and see the number of incidents
 	5. Select a motivation and see which airplane crashed and why
 	6. -
+	7. -
 	quit
  > ''')
 
 		if choice not in valid_choices:
-			print(f"Your choice '{choice}' is not valid. Please retry")
+			print(f"Your choice '{choice}' is not valid. Please be sure to select of the above choices")
 			continue
 
 		if choice == "quit":
 			break
-
 		print(f"\nYou chose to execute query {choice}")
-		if choice == 'cars':
-			query_cars()
-		elif choice == 'members':
-			query_members()
-		elif choice == 'crash':
-			query_five()
-
-		else:
-			raise Exception("We should never get here!")
+		if choice == '1':
+			query_1()
+		elif choice == '2':
+			query_2()
+		elif choice == '3':
+			query_3()
+		elif choice == '4':
+			query_4()
+		elif choice == '5':
+			query_5()
+		elif choice == '6':
+			query_6()
+		elif choice == '7':
+			query_7()
 
 
 	print("\nGoodbye!\n")
