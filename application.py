@@ -139,7 +139,7 @@ def query_4():
 	where c.serial_number = a.serial_number and c.registration = a.registration
 	group by c.serial_number, c.registration
 	having cn>2''')
-	result2 = mycursor.fetchall()
+	result = mycursor.fetchall()
 	print('There are no airplanes that crashed more than once.')
 
 def query_5():
@@ -166,16 +166,28 @@ def query_5():
 				from crash
 				where summary like '%{choice5}%' '''))
 			mycursor.execute(sql)
-			result1 = mycursor.fetchall()
+			result = mycursor.fetchall()
 			print(f"These are the flights crashed because of {choice5}\n====")
-			for i in result1:
+			for i in result:
 				print(
 					f"\nDetails and summary of the crashes '{i[0]}', '{i[1]}', '{i[2]}' \n")
 
 #def query_6():
 
 
-#def query_7():
+def query_7():
+	mycursor.execute('''select a.operator, sum(c.number_of_fatalities) as total_fatalities 
+	from airplane as a , crash as c 
+	where a.serial_number=c.serial_number and a.registration=c.registration 
+	group by a.operator
+	having count(a.operator) >= all(select count(*)
+									from airplane group by operator );
+	''')
+	result = mycursor.fetchall()
+	for i in result:
+		print(f"\nThe most frequent operator is: '{i[0]}', total number of fatalities: {i[1]} \n")
+
+
 
 
 # MAIN
