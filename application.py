@@ -6,7 +6,7 @@ import mysql.connector as mysql
 
 host = "localhost"
 user = "root"
-password = "franci22"
+password = "Magda2004."
 
 db = mysql.connect(
     host=host,
@@ -111,6 +111,7 @@ def query_2():
         if choice2 not in choicesq2:
             print(f"\nInput not valid, check your syntax.\n")
             continue
+
         else:
             if choice2 == 'home':
                 print('\nGoing back to query selection\n')
@@ -227,13 +228,13 @@ def query_6():
             if choice6 == 'home':
                 print('\nGoing back to query selection\n')
                 break
-            sql = (mycursor.execute(f'''select a.serial_number, a.registration, a.operator,c.date
-                                    from Crash as c, airplane as a join flight as f on a.serial_number = f.serial_number and a.registration = f.registration 
-                                    where f.route in (select route 
-                                                      from flight f join crash c on f.registration = c.registration and f.serial_number = c.serial_number  
-                                                      where year(c.date)={choice6} 
-                                                      group by route 
-                                                      having count(route) > 1); '''))
+            sql = (mycursor.execute(f'''select a.serial_number, a.registration, a.operator, c.date , f.route 
+                                        from airplane as a join flight as f on a.serial_number = f.serial_number and a.registration = f.registration join crash c on f.registration = c.registration 
+                                        where year(c.date)={choice6} and f.route in (select f.route 
+                                                                                from flight f join crash c on f.registration = c.registration and f.serial_number = c.serial_number 
+                                                                                where year(c.date)={choice6} 
+                                                                                group by f.route 
+                                                                                having count(f.route) > 1);'''))
             mycursor.execute(sql)
             result6 = mycursor.fetchall()
             if result6 == []:
@@ -242,7 +243,7 @@ def query_6():
                 print(f"These are the flights that crashed in {choice6}\n--")
             for i in result6:
                 print(
-                    f"\nAircraft's serial number: '{i[0]}', Aircraft registration: '{i[1]}', Aircraft operator: '{i[2]}', Date: '{i[3]}' \n")
+                    f"\nAircraft's serial number: '{i[0]}', Aircraft registration: '{i[1]}', Aircraft operator: '{i[2]}', Crash date: {i[3]}, Route: {i[4]} \n")
 
 
 def query_7():
