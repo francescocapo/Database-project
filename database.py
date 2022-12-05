@@ -9,7 +9,7 @@ dataset = pd.read_csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
 db_name='airplane_crashes'
 try:
-    mydb = mysql.connect(host='localhost', user='root', password='franci22') # you can add the auth_plugin here too (ref line 26)
+    mydb = mysql.connect(host = 'localhost', user = 'root', password = 'password') # you can add the auth_plugin here too (ref line 26)
     if mydb.is_connected():
         mycursor = mydb.cursor()
         mycursor.execute('SHOW DATABASES')
@@ -22,7 +22,7 @@ try:
                 mydb.commit() # make the changes official
                 print("The database already exists! The old database has been deleted!")
 
-        mycursor.execute("CREATE DATABASE "+ db_name)
+        mycursor.execute("CREATE DATABASE " + db_name)
         print("Database is created")
 except Error as e:
     print("Error while connecting to MySQL", e)
