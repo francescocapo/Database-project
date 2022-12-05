@@ -76,7 +76,7 @@ def query_1():
 {location}\n''')
 
             if choice1 in location:
-                sql = (mycursor.execute(f'''select c.serial_number, c.registration, a.operator, c.number_of_fatalities
+                sql = (mycursor.execute(f'''select c.serial_number, c.registration, a.operator, c.date, c.number_of_fatalities
 				from airplane as a, crash as c
 				where a.registration = c.registration and a.serial_number = c.serial_number and c.location like '%{choice1}' '''))
                 mycursor.execute(sql)
@@ -84,7 +84,7 @@ def query_1():
                 print(f"These are all flights that crashed in  {choice1}:\n--")
                 for i in result1:
                     print(
-                        f" - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Number of fatalities: {i[3]} \n")
+                        f" - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Date: {i[3]}, Number of fatalities: {i[4]} \n")
 
 
 def query_2():
@@ -234,7 +234,7 @@ def query_6():
                                                                                 from flight f join crash c on f.registration = c.registration and f.serial_number = c.serial_number 
                                                                                 where year(c.date)={choice6} 
                                                                                 group by f.route 
-                                                                                having count(f.route) > 1);'''))
+                                                                                having count(f.route) > 1) and f.route <> '/';'''))
             mycursor.execute(sql)
             result6 = mycursor.fetchall()
             if result6 == []:
