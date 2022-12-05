@@ -300,7 +300,7 @@ if __name__ == "__main__":
 	3. Select the number of fatalities and see to which crash it corresponds
 	4. Check if an airplane has crashed more than once
 	5. Select a motivation and see which airplane crashed and why
-	6. Insert a year and find the airplanes crashed on the same route in that year
+	6. Insert a year and find the information about the crashes happened in the same route in that year
 	7. Get the most frequent company with its total number of fatalities
 	8. Plot the number of crashes for all the years
 	Quit
