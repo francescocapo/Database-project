@@ -9,7 +9,7 @@ dataset = pd.read_csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
 db_name='airplane_crashes'
 try:
-    mydb = mysql.connect(host='localhost', user='root', password='Magda2004.') # you can add the auth_plugin here too (ref line 26)
+    mydb = mysql.connect(host='localhost', user='root', password='franci22') # you can add the auth_plugin here too (ref line 26)
     if mydb.is_connected():
         mycursor = mydb.cursor()
         mycursor.execute('SHOW DATABASES')

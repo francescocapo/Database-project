@@ -6,7 +6,7 @@ import mysql.connector as mysql
 
 host = "localhost"
 user = "root"
-password = "Magda2004."
+password = "franci22"
 
 db = mysql.connect(
     host=host,
@@ -15,8 +15,6 @@ db = mysql.connect(
 )
 
 from mysql.connector import Error
-
-import numpy as np
 
 db_name = 'airplane_crashes'
 try:
@@ -76,7 +74,7 @@ def query_1():
 {location}\n''')
 
             if choice1 in location:
-                sql = (mycursor.execute(f'''select c.serial_number, c.registration, a.operator, c.date, c.number_of_fatalities
+                sql = (mycursor.execute(f'''select c.serial_number, c.registration, a.operator, c.number_of_fatalities
 				from airplane as a, crash as c
 				where a.registration = c.registration and a.serial_number = c.serial_number and c.location like '%{choice1}' '''))
                 mycursor.execute(sql)
@@ -84,7 +82,7 @@ def query_1():
                 print(f"These are all flights that crashed in  {choice1}:\n--")
                 for i in result1:
                     print(
-                        f" - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Date: {i[3]}, Number of fatalities: {i[4]} \n")
+                        f"\n\n - Serial number: '{i[0]}', Registration: '{i[1]}', Company: '{i[2]}', Date: {i[3]}, Number of fatalities: {i[4]}")
 
 
 def query_2():
@@ -130,7 +128,7 @@ def query_2():
                 print(f"These are all the details of the flights that crashed in {choice2}:\n--")
                 for i in result2:
                     print(
-                        f"\n - Flight number: '{i[0]}', CityLocation: '{i[1]}', Date: '{i[2]}', TotalVictims: {i[3]} \n")
+                        f"\n \n- Flight number: '{i[0]}', CityLocation: '{i[1]}', Date: '{i[2]}', TotalVictims: {i[3]}")
 
 
 def query_3():
@@ -296,7 +294,7 @@ if __name__ == "__main__":
         choice = input('''Choose a query to execute from the one below or type 'quit' to quit.
 	Choices:
 	1. Select a country and find which airplane crashed there
-	2. Select a country and find information about all crashes happend there
+	2. Find information about a crash based on the country
 	3. Select the number of fatalities and see to which crash it corresponds
 	4. Check if an airplane has crashed more than once
 	5. Select a motivation and see which airplane crashed and why
