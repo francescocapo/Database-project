@@ -1,6 +1,9 @@
 # Database project 
 by Francesco Capo, Martina Serandrei, Giulia Macis, Alessandro Ivashkevich
 
+Inside the database-project folder you will find the original csv file, Airplane_Crashes_and_Fatalities_Since_1908.csv,
+a file csv with the manipulated data, selection.csv, two file python one with the creation of the table, database.py,
+and one with the queries, application.py.
 
 1. Open file 'database.py'
 2. Insert your mysql password
