@@ -268,10 +268,21 @@ def query_8():
     for i in result:
         years.append(i[0])
         crashes.append(i[1])
-
-    plt.bar(years, crashes, facecolor='purple')
-    plt.grid(True)
+    fig, ax = plt.subplots()
+    plot = plt.bar(years, crashes, alpha=0.5, linewidth=5)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_color('#DDDDDD')
+    ax.tick_params(bottom=False, left=False)
+    ax.set_axisbelow(True)
+    ax.yaxis.grid(True, color='#EEEEEE')
+    ax.xaxis.grid(False)
+    ax.set_xlabel('Years', fontsize=13, fontweight='black', color = '#333F4B')
+    ax.set_ylabel('Number of crashes', fontsize=12, fontweight='black', color = '#333F4B')
+    fig.tight_layout()
     plt.show()
+
 
 
 # MAIN
@@ -289,7 +300,7 @@ if __name__ == "__main__":
 	3. Select the number of fatalities and see to which crash it corresponds
 	4. Check if an airplane has crashed more than once
 	5. Select a motivation and see which airplane crashed and why
-	6. Insert a year and find the airplanes crashed on the same route in that year
+	6. Insert a year and find the information about the crashes happened on the same route in that year
 	7. Get the most frequent company with its total number of fatalities
 	8. Plot the number of crashes for all the years
 	Quit
