@@ -6,7 +6,7 @@ import mysql.connector as mysql
 
 host = "localhost"
 user = "root"
-password = "franci22"
+password = "Magda2004."
 
 db = mysql.connect(
     host=host,
@@ -287,7 +287,7 @@ def query_8():
 if __name__ == "__main__":
     print("\nWelcome to our project!\n")
 
-    valid_choices = ['1', '2', '3', '4', '5', '6', '7', '8', 'quit']
+    valid_choices = ['1', '2', '3', '4', '5', '6', '7', '8', 'Quit']
 
     while True:
 
@@ -308,10 +308,9 @@ if __name__ == "__main__":
             print(f"Your choice '{choice}' is not valid. Please be sure to select one of the numbers below")
             continue
 
-        if choice == "Quit":
+        elif choice == "Quit":
             break
-        print(f"\nYou chose to execute query {choice}")
-        if choice == '1':
+        elif choice == '1':
             query_1()
         elif choice == '2':
             query_2()
@@ -328,4 +327,4 @@ if __name__ == "__main__":
         elif choice == '8':
             query_8()
 
-    print("\nGoodbye!\n")
+print("\nGoodbye!\n")
