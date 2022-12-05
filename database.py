@@ -1,3 +1,5 @@
+from time import strftime
+
 import mysql.connector as mysql
 from mysql.connector import Error
 import pandas as pd
@@ -7,7 +9,7 @@ dataset = pd.read_csv("Airplane_Crashes_and_Fatalities_Since_1908.csv")
 
 db_name='airplane_crashes'
 try:
-    mydb = mysql.connect(host='localhost', user='root', password='franci22') # you can add the auth_plugin here too (ref line 26)
+    mydb = mysql.connect(host='localhost', user='root', password='Magda2004.') # you can add the auth_plugin here too (ref line 26)
     if mydb.is_connected():
         mycursor = mydb.cursor()
         mycursor.execute('SHOW DATABASES')
@@ -18,7 +20,7 @@ try:
             if db_name == x[0]:
                 mycursor.execute('DROP DATABASE ' + db_name) # delete old database
                 mydb.commit() # make the changes official
-                print("The database already exists! The old database has been deleted!)")
+                print("The database already exists! The old database has been deleted!")
 
         mycursor.execute("CREATE DATABASE "+ db_name)
         print("Database is created")
@@ -59,8 +61,8 @@ mycursor.execute(
     '''
         CREATE TABLE `Crash` (
           `index` int,
-          `date` date,
-          `time` time,
+          `date` date NULL,
+          `time` time NULL,
           `location` varchar(100),
           `serial_number` varchar(100),
           `registration` varchar(100),
@@ -92,7 +94,7 @@ selection.insert(6, 'Flight#', flight_number)
 
 
 #SERIAL NUMBER
-serial_num = selection.loc[3196:, 'cn/In']
+serial_num = selection.loc[0:, 'cn/In']
 serial_num_ = list(serial_num)
 selection = selection.drop(labels='cn/In', axis=1)
 
@@ -107,7 +109,7 @@ selection.insert(9, 'Serial#', serial_num_)
 
 
 #REGISTRATION
-registration = selection.loc[3196:, 'Registration']
+registration = selection.loc[0:, 'Registration']
 registration_ = list(registration)
 selection = selection.drop(labels='Registration', axis=1)
 
@@ -143,42 +145,46 @@ for t in times:
             t = t[1:]
         if len(p[2]) > 2:
             t = t[:-1]
-        try:
-            time = datetime.strptime(t, '%H:%M').time()
-            t2.append(time)
-        except:
-            t2.append(0)
-            continue
+
+        time = datetime.strptime(t, '%H:%M').time()
+        t2.append(time)
+
 selection = selection.drop(labels='Time', axis=1)
 selection.insert(2, 'Time', t2)
 
 
 #DATE
-date = selection.loc[3196:, 'Date']
+date = selection.loc[0:, 'Date']
 date_ = list(date)
 list = [datetime.strptime(x,'%m/%d/%Y').strftime('%Y/%m/%d') for x in date_]
 selection = selection.drop(labels='Date', axis=1)
 selection.insert(1, 'Date', list)
 
-#Insert the data into the tables
-
+##Insert the data into the tables
 #Airplane
-datairplane = selection[['Serial#', 'Registration', 'Operator', 'Type']]
-for i,row in datairplane.iterrows():
+for attrib in ['Operator', 'Type']:
+    selection[attrib] = selection[attrib].fillna('/')
+for i,row in selection.iterrows():
     sql = "INSERT INTO airplane_crashes.Airplane VALUES (%s,%s,%s,%s)"
     mycursor.execute(sql, tuple([row['Serial#'], row['Registration'], row['Operator'], row['Type']]))
     mydb.commit()
 
 #Flight
-dataflight = selection[['Flight#', 'Aboard', 'Route', 'Serial#', 'Registration']]
-for i, row in dataflight.iterrows():
+selection['Route'] = selection['Route'].fillna('/')
+selection['Aboard'] = selection['Aboard'].fillna(0)
+for i, row in selection.iterrows():
     sql = "INSERT INTO airplane_crashes.Flight VALUES (%s,%s,%s,%s,%s)"
     mycursor.execute(sql, tuple([row['Flight#'], row['Aboard'], row['Route'], row['Serial#'], row['Registration']]))
     mydb.commit()
 
 #Crash
-datacrash = selection[['index', 'Date', 'Time', 'Location', 'Serial#', 'Registration', 'Fatalities', 'Ground', 'Summary']]
-for i, row in datacrash.iterrows():
+for attrib in ['Location', 'Summary']:
+    selection[attrib] = selection[attrib].fillna('/')
+for attrib1 in ['Fatalities', 'Ground']:
+    selection[attrib1] = selection[attrib1].fillna(0)
+selection['Date'] = selection['Date'].fillna('0000-00-00')
+selection['Time'] = selection['Time'].fillna('00')
+for i, row in selection.iterrows():
     sql = "INSERT INTO airplane_crashes.Crash VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     mycursor.execute(sql, tuple([row['index'], row['Date'], row['Time'], row['Location'],  row['Serial#'], row['Registration'],  row['Fatalities'], row['Ground'], row['Summary']]))
     mydb.commit()
